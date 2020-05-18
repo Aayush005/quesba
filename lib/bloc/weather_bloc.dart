@@ -10,7 +10,7 @@ class WeatherBloc {
   final _weatherFetcher = PublishSubject<WeatherResponse>();
 
   //This method is used to pass the weather response as stream to UI
-  Observable<WeatherResponse> get weather => _weatherFetcher.stream;
+  Stream<WeatherResponse> get weather => _weatherFetcher.stream;
 
   fetchLondonWeather() async {
     WeatherResponse weatherResponse = await _repository.fetchLondonWeather();
