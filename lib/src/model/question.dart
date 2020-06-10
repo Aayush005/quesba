@@ -1,3 +1,6 @@
+import 'package:ml_text_recognition/src/model/question_list.dart';
+import 'package:ml_text_recognition/src/todo/base_list.dart';
+
 import 'base_model.dart';
 
 class QuestionModel extends BaseModel {
@@ -5,13 +8,13 @@ class QuestionModel extends BaseModel {
   int premiumSolutionCount;
   int freeSolutionCount;
   int statusCode;
-  String subjectId;
-  String topicId;
+  int subjectId;
+  int topicId;
   String title;
   String description;
   bool isIndexable;
   bool isActive;
-  DateTime createdDate;
+  String createdDate;
 
   QuestionModel.fromJson(Map<String, dynamic> parsedJson) {
     id = parsedJson['id'];

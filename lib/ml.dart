@@ -1,14 +1,18 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' show Client;
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 import 'package:ml_text_recognition/src/model/question.dart';
+import 'package:ml_text_recognition/src/ui/show_solution/show_solution.dart';
+import 'package:ml_text_recognition/src/ui/solution_found/solution_found.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:http/http.dart';
+import 'package:ml_text_recognition/src/ui/no_solution_found/No_solution_found.dart';
 
 class MLPage extends StatefulWidget {
 
@@ -26,7 +30,7 @@ class _MLPageState extends State<MLPage> {
   File _croppedImage;
   String _text,apiResult = "";
   String body;
-
+  File croppedFile;
 
   @override
   void initState() {
@@ -38,7 +42,7 @@ class _MLPageState extends State<MLPage> {
 
   _cropImage() async {
 
-    File croppedFile = await ImageCropper.cropImage(
+    croppedFile = await ImageCropper.cropImage(
       sourcePath: widget.imageFile,
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
@@ -58,12 +62,20 @@ class _MLPageState extends State<MLPage> {
 
       ),
     );
+
     if (croppedFile != null) {
       _readText(croppedFile);
-      setState(() {
-        _croppedImage = croppedFile;
-      });
-    }
+
+  }
+
+  }
+
+  _showSolutionFound(){
+
+    _readText(croppedFile);
+    setState(() {
+      _croppedImage = croppedFile;
+    });
   }
 
   _readText(image) async {
@@ -71,6 +83,7 @@ class _MLPageState extends State<MLPage> {
 
     FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(image);
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
+
     VisionText readText = await recognizeText.processImage(ourImage);
 
     for (TextBlock block in readText.blocks) {
@@ -85,6 +98,8 @@ class _MLPageState extends State<MLPage> {
 
     setState(() {
       _text = tempText;
+      searchQuestion(_text);
+
     });
   }
 
@@ -97,79 +112,6 @@ class _MLPageState extends State<MLPage> {
       body: CustomScrollView(
         physics: BouncingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
-            backgroundColor: Colors.black,
-            expandedHeight: MediaQuery.of(context).size.height / 2 ,
-            elevation: 10,
-            flexibleSpace: FlexibleSpaceBar(
-              background: _croppedImage == null ? Container()
-                  : Padding(
-                    padding: const EdgeInsets.only(top: 40.0,left: 10.0,right: 10.0),
-                    child: Image.file(_croppedImage,fit: BoxFit.contain),
-                  ),
-            ),
-          ),
-          SliverFillRemaining(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Colors.white.withOpacity(0.2),Colors.orangeAccent.withOpacity(0.6)],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                      )
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text('Detected Text'),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 60,left: 10,right: 10,bottom: 20),
-                        child: SelectableText(
-                          _text,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            letterSpacing: 0.2
-                          ),
-                          toolbarOptions: ToolbarOptions(
-                            copy: true,
-                            selectAll: true,
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.directions_run,
-                      ),
-                      iconSize: 50,
-                      color: Colors.green,
-                      splashColor: Colors.pink,
-                      onPressed: () {
-
-                        searchQuestion(_text);
-
-                      },
-                    ),
-
-                    Text('Press me to hit API'),
-                    SizedBox(
-                      width: 100.0,
-                      height: 50.0,
-                      //child: const Card(child: Text('  Hello World!')),
-                    ),
-
-                    Text(apiResult),
-                  ],
-                ),
-              ],
-            )
-          ),
 
         ],
       ),
@@ -186,12 +128,17 @@ class _MLPageState extends State<MLPage> {
     print(response.request.url);
     print(response.body.toString());
     print("End Test");
-//    print(response.body.toString());
-//    print(response.body.toString());
-//    print(response.body.toString());
+
     if (response.statusCode == 200) {
       setState(() {
         apiResult = response.body.toString();
+        if(apiResult.toString().length>=10) {
+          Navigator.push(context, MaterialPageRoute(
+              builder: (context) => SolutionFound(croppedFile)));
+        }else{
+          Navigator.push(context, MaterialPageRoute(
+              builder: (context) => NoSolution(type)));
+        }
     });
 
     } else {

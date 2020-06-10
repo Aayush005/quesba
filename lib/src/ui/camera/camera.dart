@@ -6,10 +6,12 @@ import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:ml_text_recognition/src/model/question.dart';
+import 'package:ml_text_recognition/src/model/question_list.dart';
 import 'package:ml_text_recognition/src/ui/camera/DarwinCamera.dart';
 import 'package:ml_text_recognition/src/ui/camera/dimensions.dart';
 import 'package:ml_text_recognition/src/ui/camera/helper.dart';
 import 'dart:async';
+import 'package:ml_text_recognition/src/blocs/question_detail_bloc.dart';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -47,7 +49,7 @@ class _DarwinCameraTutorialState extends State<DarwinCameraTutorial> {
   bool isImageCaptured;
   var controllerSearch = TextEditingController();
   Client client = Client();
-
+  var _text;
 
   @override
   void initState() {
@@ -140,21 +142,38 @@ class _DarwinCameraTutorialState extends State<DarwinCameraTutorial> {
 
   @override
   Widget build(BuildContext context) {
+    questionDetailBloc.searchQuestion(_text);
     return Stack(
       children: <Widget>[
         FloatingSearchBar.builder(
           pinned: true,
-          itemCount: 1,
+          itemCount: 2,
           padding: EdgeInsets.only(top: 10.0),
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              leading: Text(apiResult),
+            return StreamBuilder(
+              stream: questionDetailBloc.questionDetail,
+              builder: (context, AsyncSnapshot<QuestionList> snapshot) {
+                if (snapshot.hasData) {
+                  print(snapshot.data.toString());
+                  return Text(snapshot.data.question_list[index].title,style: TextStyle(fontWeight: FontWeight.bold),);
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+
+                return Container(
+                    padding: EdgeInsets.all(20.0),
+                    child: Center(child: CircularProgressIndicator()));
+              },
+
             );
           },
           trailing: Icon(Icons.notifications,),
           controller: controllerSearch,
           onChanged: (String value) {
-            searchQuestion(controllerSearch.text);
+            setState(() {
+              _text = controllerSearch.text;
+            });
+
           },
           onTap: () {},
           decoration: InputDecoration.collapsed(

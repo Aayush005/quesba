@@ -12,6 +12,7 @@ class MovieDetailBloc extends BaseBloc<MovieDetailModel> {
   fetchMovieDetail(int movieId) async {
     MovieDetailModel itemModel = await repository.fetchMovieDetail(movieId);
     fetcher.sink.add(itemModel);
+
   }
 }
 

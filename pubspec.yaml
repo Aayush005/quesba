@@ -47,7 +47,8 @@ dependencies:
   image_editor:
   isolate:
     #image crop end
-
+  flutter_html:
+  search_widget:
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
     - gif/bggl.gif
     - assets/LoginSignup/
     - assets/images/
+    - assets/images/commerce3x.png
 
   fonts:
     - family: xd

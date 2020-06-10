@@ -1,18 +1,20 @@
 
 import 'package:ml_text_recognition/src/blocs/base.dart';
 import 'package:ml_text_recognition/src/model/question.dart';
+import 'package:ml_text_recognition/src/model/question_list.dart';
+import 'package:ml_text_recognition/src/todo/base_list.dart';
 
 
 
-class QuestionDetailBloc extends BaseBloc<QuestionModel> {
+class QuestionDetailBloc extends BaseBloc<QuestionList>  {
 
-  Stream<QuestionModel> get questionDetail => fetcher.stream;
+  Stream<QuestionList> get questionDetail => fetcher.stream;
 
-  searchQuestion(String type) async {
-    QuestionModel itemModel = await repository.searchQuestion(type);
+   searchQuestion(String type) async {
+     QuestionList itemModel = await repository.searchQuestion(type);
     fetcher.sink.add(itemModel);
     print("model test");
-    print(itemModel.description);
+
   }
 }
 

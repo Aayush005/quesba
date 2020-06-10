@@ -144,7 +144,7 @@ class _DarwinCameraState extends State<DarwinCamera>
 
     ///
     try {
-      Uint8List savedFilePath;
+      String savedFilePath;
       savedFilePath = await DarwinCameraHelper.captureImage(
         cameraController,
         widget.filePath,
@@ -161,7 +161,7 @@ class _DarwinCameraState extends State<DarwinCamera>
         print(savedFilePath);
         print(savedFilePath);
 //        var encoded = uint8.encode(savedFilePath);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ImageEditorDemo(savedFilePath)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MLPage(savedFilePath)));
       }
     } catch (e) {
       print(e);

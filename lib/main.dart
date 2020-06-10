@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:ml_text_recognition/camerapage.dart';
 
@@ -11,7 +13,8 @@ import 'package:persistent_bottom_nav_bar/models/persisten-bottom-nav-item.widge
 import 'package:persistent_bottom_nav_bar/models/persistent-bottom-nav-bar-styles.widget.dart';
 import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
-
+import 'package:ml_text_recognition/src/ui/profile/profile.dart';
+import 'package:ml_text_recognition/src/ui/history/history.dart';
 
 
 void main() => runApp(MyApp());
@@ -48,9 +51,9 @@ class _MyHomeState extends State<MyHome> {
 
   List<Widget> _buildScreens() {
     return [
-      Temp(),
+      History(),
       Camera(),
-      Temp(),
+      Profile(),
 
     ];
   }

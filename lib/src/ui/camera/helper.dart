@@ -24,7 +24,7 @@ class DarwinCameraHelper {
   ///
   ///
   /// Captures image from the selected Camera.
-  static Future<Uint8List> captureImage(
+  static Future<String> captureImage(
       CameraController cameraController,
       String filePath, {
         bool enableCompression = true,
@@ -56,7 +56,7 @@ class DarwinCameraHelper {
       print(stacktrace);
       return null;
     }
-    return file.readAsBytes();
+    return file.path;
   }
 
   ///
