@@ -1,5 +1,3 @@
-
-
 import 'package:ml_text_recognition/src/model/base_model.dart';
 
 class ItemModel extends BaseModel{
