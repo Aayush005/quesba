@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>827853501946-p7tadjuoqjabqci723qimccchh2gaaov.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.827853501946-p7tadjuoqjabqci723qimccchh2gaaov</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAF8tDEnHnu3nUZlsP2LqTNb15cTe8VyKo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>827853501946</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.transweb.quesba</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-firebase-mlkit-t-c12be</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-firebase-mlkit-t-c12be.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:827853501946:ios:30467e5f83a6e2b31e6043</string>
+	<key>DATABASE_URL</key>
+	<string>https://flutter-firebase-mlkit-t-c12be.firebaseio.com</string>
+</dict>
+</plist>
